@@ -1,27 +1,40 @@
-# TransferSimulator
+# Transfer Simulator - Simulador de Transferencias Bancarias
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+Una aplicación web moderna para simular transferencias entre cuentas bancarias, desarrollada con Angular 16 y Angular Material.
 
-## Development server
+## Características
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- ✅ Simulación de transferencias entre cuentas
+- ✅ Validaciones en tiempo real (saldo, misma cuenta)
+- ✅ Historial de transferencias con filtros
+- ✅ Dashboard con estadísticas
+- ✅ Mercado de criptomonedas en tiempo real (simulado)
+- ✅ Internacionalización (Español/Inglés)
+- ✅ Diseño responsive
+- ✅ Modo oscuro/claro
+- ✅ Notificaciones toast
+- ✅ Almacenamiento local (LocalStorage)
 
-## Code scaffolding
+## Tecnologías Utilizadas
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular 16
+- Angular Material
+- TypeScript
+- RxJS
+- WebSocket (simulado)
+- i18n (Internacionalización)
+- CSS/SCSS
 
-## Build
+## Requisitos Previos
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Node.js 16+ 
+- npm o yarn
+- Angular CLI 16+
 
-## Running unit tests
+## Instalación y Ejecución
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### 1. Clonar el repositorio
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+git clone <repository-url>
+cd transfer-simulator

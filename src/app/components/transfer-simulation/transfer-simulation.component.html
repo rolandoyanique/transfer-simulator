@@ -1,0 +1,85 @@
+<div class="transfer-simulation">
+  <h1>{{ 'TRANSFER.SIMULATION.TITLE' | translate }}</h1>
+  
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="transferForm" (ngSubmit)="onSubmit()" class="transfer-form">
+        
+        <!-- Cuenta origen -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>{{ 'TRANSFER.SIMULATION.FROM_ACCOUNT' | translate }}</mat-label>
+          <mat-select formControlName="fromAccount" required>
+            <mat-option *ngFor="let account of accounts" [value]="account.id">
+              {{ account.type }} - {{ account.name }} ({{ account.accountNumber }})
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="transferForm.get('fromAccount')?.hasError('required')">
+            {{ 'VALIDATION.REQUIRED' | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Información de cuenta origen -->
+        <div *ngIf="selectedFromAccount" class="account-info">
+          <div class="account-details">
+            <img [src]="selectedFromAccount.photo" [alt]="selectedFromAccount.name" class="account-photo">
+            <div>
+              <h3>{{ selectedFromAccount.name }}</h3>
+              <p>{{ selectedFromAccount.type }} - {{ selectedFromAccount.accountNumber }}</p>
+              <p><strong>{{ 'ACCOUNT.BALANCE' | translate }}:</strong> {{ selectedFromAccount.balance | currency:'USD':'symbol':'1.2-2' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cuenta destino -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>{{ 'TRANSFER.SIMULATION.TO_ACCOUNT' | translate }}</mat-label>
+          <mat-select formControlName="toAccount" required>
+            <mat-option *ngFor="let account of accounts" [value]="account.id">
+              {{ account.type }} - {{ account.name }} ({{ account.accountNumber }})
+            </mat-option>
+          </mat-select>
+          <mat-error>{{ getToAccountErrorMessage() }}</mat-error>
+        </mat-form-field>
+
+        <!-- Información de cuenta destino -->
+        <div *ngIf="selectedToAccount" class="account-info">
+          <div class="account-details">
+            <img [src]="selectedToAccount.photo" [alt]="selectedToAccount.name" class="account-photo">
+            <div>
+              <h3>{{ selectedToAccount.name }}</h3>
+              <p>{{ selectedToAccount.type }} - {{ selectedToAccount.accountNumber }}</p>
+              <p><strong>{{ 'ACCOUNT.BALANCE' | translate }}:</strong> {{ selectedToAccount.balance | currency:'USD':'symbol':'1.2-2' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monto -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>{{ 'TRANSFER.SIMULATION.AMOUNT' | translate }}</mat-label>
+          <input matInput type="number" formControlName="amount" required>
+          <span matPrefix>$ &nbsp;</span>
+          <mat-error>{{ getAmountErrorMessage() }}</mat-error>
+        </mat-form-field>
+
+        <!-- Descripción -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>{{ 'TRANSFER.SIMULATION.DESCRIPTION' | translate }}</mat-label>
+          <textarea matInput formControlName="description" rows="2"></textarea>
+        </mat-form-field>
+
+        <!-- Botón de envío -->
+        <button 
+          mat-raised-button 
+          color="primary" 
+          type="submit" 
+          [disabled]="transferForm.invalid || isSubmitting"
+          class="submit-button">
+          <mat-spinner diameter="20" *ngIf="isSubmitting"></mat-spinner>
+          <span *ngIf="!isSubmitting">{{ 'TRANSFER.SIMULATION.SUBMIT' | translate }}</span>
+          <span *ngIf="isSubmitting">{{ 'TRANSFER.SIMULATION.PROCESSING' | translate }}</span>
+        </button>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

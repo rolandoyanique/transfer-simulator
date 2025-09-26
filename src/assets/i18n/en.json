@@ -1,0 +1,71 @@
+{
+  "APP": {
+    "TITLE": "Bank Transfer Simulator"
+  },
+  "MENU": {
+    "DASHBOARD": "Dashboard",
+    "SIMULATION": "Transfer Simulation",
+    "HISTORY": "Transfer History"
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "TOTAL_TRANSACTIONS": "Total Transactions",
+    "TOTAL_AMOUNT": "Total Amount",
+    "ACCOUNT_MOST_TRANSACTIONS": "Account with Most Transactions",
+    "AVERAGE_TRANSACTION": "Average Transaction",
+    "TODAY": "Today",
+    "MOST_ACTIVE": "Most Active",
+    "PER_TRANSACTION": "Per Transaction",
+    "RECENT_ACTIVITY": "Recent Activity",
+    "COMING_SOON": "Charts and detailed analytics coming soon..."
+  },
+  "TRANSFER": {
+    "SIMULATION": {
+      "TITLE": "Transfer Simulation",
+      "FROM_ACCOUNT": "From Account",
+      "TO_ACCOUNT": "To Account",
+      "AMOUNT": "Amount",
+      "DESCRIPTION": "Description (Optional)",
+      "SUBMIT": "Simulate Transfer",
+      "PROCESSING": "Processing..."
+    },
+    "HISTORY": {
+      "TITLE": "Transfer History",
+      "FILTERS": "Filters",
+      "FILTER_BY_ACCOUNT": "Filter by Account",
+      "MIN_AMOUNT": "Minimum Amount",
+      "MAX_AMOUNT": "Maximum Amount",
+      "CLEAR_FILTERS": "Clear Filters",
+      "DATE": "Date",
+      "FROM_ACCOUNT": "From Account",
+      "TO_ACCOUNT": "To Account",
+      "AMOUNT": "Amount",
+      "STATUS": "Status",
+      "NO_DATA": "No transfers found"
+    },
+    "SUCCESS": "Transfer completed successfully!",
+    "ERROR": "Error processing transfer. Please try again.",
+    "STATUS": {
+      "COMPLETED": "Completed",
+      "PENDING": "Pending",
+      "FAILED": "Failed"
+    }
+  },
+  "ACCOUNT": {
+    "BALANCE": "Balance"
+  },
+  "CRYPTO": {
+    "TITLE": "Crypto Market"
+  },
+  "VALIDATION": {
+    "REQUIRED": "This field is required",
+    "MIN_AMOUNT": "Minimum amount is $0.01",
+    "MAX_AMOUNT": "Maximum amount is $100,000",
+    "INSUFFICIENT_BALANCE": "Insufficient balance",
+    "SAME_ACCOUNT": "Cannot transfer to the same account"
+  },
+  "COMMON": {
+    "ALL": "All",
+    "LOADING": "Loading..."
+  }
+}

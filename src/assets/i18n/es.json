@@ -1,0 +1,71 @@
+{
+  "APP": {
+    "TITLE": "Simulador de Transferencias Bancarias"
+  },
+  "MENU": {
+    "DASHBOARD": "Panel de Control",
+    "SIMULATION": "Simulación de Transferencia",
+    "HISTORY": "Historial de Transferencias"
+  },
+  "DASHBOARD": {
+    "TITLE": "Panel de Control",
+    "TOTAL_TRANSACTIONS": "Total de Transacciones",
+    "TOTAL_AMOUNT": "Monto Total",
+    "ACCOUNT_MOST_TRANSACTIONS": "Cuenta con Más Transacciones",
+    "AVERAGE_TRANSACTION": "Transacción Promedio",
+    "TODAY": "Hoy",
+    "MOST_ACTIVE": "Más Activa",
+    "PER_TRANSACTION": "Por Transacción",
+    "RECENT_ACTIVITY": "Actividad Reciente",
+    "COMING_SOON": "Gráficas y análisis detallados próximamente..."
+  },
+  "TRANSFER": {
+    "SIMULATION": {
+      "TITLE": "Simulación de Transferencia",
+      "FROM_ACCOUNT": "Cuenta de Origen",
+      "TO_ACCOUNT": "Cuenta de Destino",
+      "AMOUNT": "Monto",
+      "DESCRIPTION": "Descripción (Opcional)",
+      "SUBMIT": "Simular Transferencia",
+      "PROCESSING": "Procesando..."
+    },
+    "HISTORY": {
+      "TITLE": "Historial de Transferencias",
+      "FILTERS": "Filtros",
+      "FILTER_BY_ACCOUNT": "Filtrar por Cuenta",
+      "MIN_AMOUNT": "Monto Mínimo",
+      "MAX_AMOUNT": "Monto Máximo",
+      "CLEAR_FILTERS": "Limpiar Filtros",
+      "DATE": "Fecha",
+      "FROM_ACCOUNT": "Cuenta de Origen",
+      "TO_ACCOUNT": "Cuenta de Destino",
+      "AMOUNT": "Monto",
+      "STATUS": "Estado",
+      "NO_DATA": "No se encontraron transferencias"
+    },
+    "SUCCESS": "¡Transferencia completada exitosamente!",
+    "ERROR": "Error al procesar la transferencia. Por favor, intente nuevamente.",
+    "STATUS": {
+      "COMPLETED": "Completada",
+      "PENDING": "Pendiente",
+      "FAILED": "Fallida"
+    }
+  },
+  "ACCOUNT": {
+    "BALANCE": "Saldo"
+  },
+  "CRYPTO": {
+    "TITLE": "Mercado Cripto"
+  },
+  "VALIDATION": {
+    "REQUIRED": "Este campo es requerido",
+    "MIN_AMOUNT": "El monto mínimo es $0.01",
+    "MAX_AMOUNT": "El monto máximo es $100,000",
+    "INSUFFICIENT_BALANCE": "Saldo insuficiente",
+    "SAME_ACCOUNT": "No se puede transferir a la misma cuenta"
+  },
+  "COMMON": {
+    "ALL": "Todos",
+    "LOADING": "Cargando..."
+  }
+}

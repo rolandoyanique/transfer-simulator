@@ -1,0 +1,30 @@
+.sub-toolbar {
+  min-height: 48px !important;
+  height: 48px !important;
+  
+  button {
+    min-height: 48px;
+    height: 48px;
+    
+    &.active {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+:host ::ng-deep .mat-toolbar {
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+}
+
+@media (max-width: 768px) {
+  .sub-toolbar {
+    button {
+      min-width: auto;
+      padding: 0 8px;
+      
+      span {
+        display: none;
+      }
+    }
+  }
+}

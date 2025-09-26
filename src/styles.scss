@@ -1,1 +1,136 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles */
+@import '@angular/material/theming';
+
+@include mat-core();
+
+// Define the light theme
+$light-primary: mat-palette($mat-indigo);
+$light-accent: mat-palette($mat-pink, A200, A100, A400);
+$light-warn: mat-palette($mat-red);
+$light-theme: mat-light-theme($light-primary, $light-accent, $light-warn);
+
+// Define the dark theme
+$dark-primary: mat-palette($mat-blue-grey);
+$dark-accent: mat-palette($mat-amber, A200, A100, A400);
+$dark-warn: mat-palette($mat-deep-orange);
+$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+// Apply the light theme by default
+@include angular-material-theme($light-theme);
+
+// Apply the dark theme when the .dark-mode class is applied
+.dark-mode {
+  @include angular-material-theme($dark-theme);
+  
+  background-color: #303030;
+  color: white;
+}
+
+/* Global styles */
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.flex-spacer {
+  flex: 1 1 auto;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .mobile-hidden {
+    display: none;
+  }
+}
+
+/* Toast styles */
+.toast-success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.toast-error {
+  background-color: #f44336;
+  color: white;
+}
+
+.toast-warning {
+  background-color: #ff9800;
+  color: white;
+}
+
+/* Card styles */
+.card {
+  margin: 10px 0;
+}
+
+/* Table styles */
+.table-container {
+  overflow-x: auto;
+}
+
+/* Form styles */
+.form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Dashboard cards */
+.dashboard-card {
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Crypto ticker */
+.crypto-ticker {
+  background: linear-gradient(90deg, #1a237e, #283593);
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.crypto-item {
+  display: inline-block;
+  margin: 0 15px;
+  font-size: 14px;
+}
+
+.crypto-price.up {
+  color: #4caf50;
+}
+
+.crypto-price.down {
+  color: #f44336;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

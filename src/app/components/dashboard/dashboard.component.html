@@ -1,0 +1,76 @@
+<div class="dashboard">
+  <h1>{{ 'DASHBOARD.TITLE' | translate }}</h1>
+  
+  <div *ngIf="isLoading" class="loading-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+  
+  <div *ngIf="!isLoading" class="stats-grid">
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>list_alt</mat-icon>
+          {{ 'DASHBOARD.TOTAL_TRANSACTIONS' | translate }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ stats.totalTransactions }}</h2>
+        <p>{{ 'DASHBOARD.TODAY' | translate }}</p>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>attach_money</mat-icon>
+          {{ 'DASHBOARD.TOTAL_AMOUNT' | translate }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ stats.totalAmount | currency:'USD':'symbol':'1.2-2' }}</h2>
+        <p>{{ 'DASHBOARD.TODAY' | translate }}</p>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>account_balance</mat-icon>
+          {{ 'DASHBOARD.ACCOUNT_MOST_TRANSACTIONS' | translate }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ getAccountName(stats.accountWithMostTransactions) }}</h2>
+        <p>{{ 'DASHBOARD.MOST_ACTIVE' | translate }}</p>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>trending_up</mat-icon>
+          {{ 'DASHBOARD.AVERAGE_TRANSACTION' | translate }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ stats.averageTransaction | currency:'USD':'symbol':'1.2-2' }}</h2>
+        <p>{{ 'DASHBOARD.PER_TRANSACTION' | translate }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+  <div class="recent-activity mt-20">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>schedule</mat-icon>
+          {{ 'DASHBOARD.RECENT_ACTIVITY' | translate }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ 'DASHBOARD.COMING_SOON' | translate }}</p>
+        <!-- Aquí se podría agregar un gráfico con ngx-charts -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "type": "Cuenta Corriente",
+    "name": "Juan Pérez",
+    "balance": 15000,
+    "currency": "USD",
+    "photo": "https://randomuser.me/api/portraits/men/1.jpg",
+    "accountNumber": "001-1234567"
+  },
+  {
+    "id": "2",
+    "type": "Cuenta Ahorros",
+    "name": "María García",
+    "balance": 25000,
+    "currency": "USD",
+    "photo": "https://randomuser.me/api/portraits/women/1.jpg",
+    "accountNumber": "001-1234568"
+  },
+  {
+    "id": "3",
+    "type": "Cuenta Corriente",
+    "name": "Carlos López",
+    "balance": 18000,
+    "currency": "USD",
+    "photo": "https://randomuser.me/api/portraits/men/2.jpg",
+    "accountNumber": "001-1234569"
+  },
+  {
+    "id": "4",
+    "type": "Cuenta Ahorros",
+    "name": "Ana Martínez",
+    "balance": 32000,
+    "currency": "USD",
+    "photo": "https://randomuser.me/api/portraits/women/2.jpg",
+    "accountNumber": "001-1234570"
+  }
+]

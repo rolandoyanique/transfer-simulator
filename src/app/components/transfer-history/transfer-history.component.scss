@@ -1,0 +1,76 @@
+.transfer-history {
+  padding: 20px 0;
+}
+
+.filters-card {
+  margin-bottom: 20px;
+}
+
+.filters-form {
+  .filter-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    align-items: start;
+  }
+}
+
+.table-container {
+  position: relative;
+  min-height: 200px;
+}
+
+.transfers-table {
+  width: 100%;
+  
+  .account-cell {
+    display: flex;
+    align-items: center;
+    
+    .account-photo-small {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+  }
+}
+
+.loading-container, .no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: #ccc;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-row {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .transfers-table {
+    .mobile-hidden {
+      display: none;
+    }
+    
+    .account-cell {
+      flex-direction: column;
+      text-align: center;
+      
+      .account-photo-small {
+        margin-right: 0;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}

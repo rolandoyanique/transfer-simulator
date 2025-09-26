@@ -1,0 +1,19 @@
+<div class="crypto-market">
+  <div class="crypto-ticker">
+    <div class="ticker-header">
+      <mat-icon>trending_up</mat-icon>
+      <span>{{ 'CRYPTO.TITLE' | translate }}</span>
+    </div>
+    <div class="ticker-content">
+      <div *ngFor="let crypto of cryptoData" class="crypto-item">
+        <span class="crypto-symbol">{{ crypto.symbol }}</span>
+        <span class="crypto-price">{{ crypto.price | currency:'USD':'symbol':'1.2-2' }}</span>
+        <span class="crypto-change" [class]="getChangeClass(crypto.change)">
+          <mat-icon *ngIf="crypto.change >= 0">arrow_upward</mat-icon>
+          <mat-icon *ngIf="crypto.change < 0">arrow_downward</mat-icon>
+          {{ crypto.change | number:'1.2-2' }} ({{ crypto.changePercent | number:'1.2-2' }}%)
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
