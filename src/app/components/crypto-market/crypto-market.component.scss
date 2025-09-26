@@ -5,22 +5,39 @@
   right: 0;
   z-index: 1000;
   background: transparent;
+  height: auto; // Altura automática
+  max-height: 120px; // Altura máxima
+  overflow: hidden; // Evitar desbordamiento
+  transition: all 0.3s ease;
+  
+  &.collapsed {
+    max-height: 50px;
+    
+    .ticker-content {
+      display: none;
+    }
+  }
 }
-
+.collapse-btn {
+  margin-left: 5px;
+}
 .crypto-ticker {
   background: linear-gradient(90deg, #1a237e, #283593);
   color: white;
   padding: 10px 20px;
   box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
   border-top: 2px solid #3949ab;
+  max-height: 120px; // Limitar altura máxima
+  overflow-y: auto; // Scroll si es necesario
 }
 
 .ticker-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px; // Reducir margen
   font-size: 14px;
+  min-height: 30px; // Altura mínima
   
   .header-left {
     display: flex;
@@ -28,30 +45,22 @@
     
     mat-icon {
       margin-right: 8px;
-      font-size: 20px;
+      font-size: 18px; // Reducir tamaño
     }
     
     .connection-status {
       display: flex;
       align-items: center;
-      margin-left: 15px;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 12px;
+      margin-left: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 11px; // Texto más pequeño
       
       mat-icon {
-        font-size: 16px;
-        margin-right: 4px;
-      }
-      
-      &.connected {
-        background-color: rgba(76, 175, 80, 0.2);
-        color: #4caf50;
-      }
-      
-      &.simulated {
-        background-color: rgba(255, 152, 0, 0.2);
-        color: #ff9800;
+        font-size: 14px;
+        width: 14px;
+        height: 14px;
+        margin-right: 3px;
       }
     }
   }
@@ -61,13 +70,22 @@
     align-items: center;
     
     .last-update {
-      font-size: 12px;
+      font-size: 11px;
       opacity: 0.8;
-      margin-right: 10px;
+      margin-right: 8px;
     }
     
     button {
       color: white;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
       
       &:disabled {
         opacity: 0.5;
@@ -82,8 +100,16 @@
   align-items: center;
   flex-wrap: wrap;
   position: relative;
-  min-height: 40px;
+  min-height: 35px; // Reducir altura mínima
+  max-height: 50px; // Limitar altura
+  overflow: hidden;
+   transition: all 0.3s ease;
   
+  &.hidden {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+  }
   &.loading {
     opacity: 0.7;
   }
@@ -95,7 +121,11 @@
     width: 100%;
     
     mat-spinner {
-      margin-right: 10px;
+      margin-right: 8px;
+    }
+    
+    span {
+      font-size: 12px;
     }
   }
 }
@@ -103,11 +133,12 @@
 .crypto-item {
   display: flex;
   align-items: center;
-  margin: 0 10px;
-  padding: 5px 10px;
-  border-radius: 6px;
+  margin: 2px 8px; // Reducir márgenes
+  padding: 3px 8px;
+  border-radius: 4px;
   transition: all 0.3s ease;
-  min-width: 200px;
+  min-width: 160px; // Reducir ancho mínimo
+  font-size: 12px; // Texto más pequeño
   
   &.highlight {
     background-color: rgba(255, 255, 255, 0.1);
@@ -116,106 +147,146 @@
   .crypto-info {
     display: flex;
     flex-direction: column;
-    margin-right: 15px;
+    margin-right: 10px;
     
     .crypto-symbol {
       font-weight: bold;
-      font-size: 14px;
+      font-size: 12px;
     }
     
     .crypto-name {
-      font-size: 10px;
+      font-size: 9px;
       opacity: 0.8;
     }
   }
   
   .crypto-price {
     font-weight: bold;
-    margin-right: 15px;
-    min-width: 80px;
+    margin-right: 10px;
+    min-width: 70px;
     text-align: right;
+    font-size: 11px;
   }
   
   .crypto-change {
     display: flex;
     align-items: center;
-    font-size: 12px;
-    min-width: 80px;
+    font-size: 10px;
+    min-width: 70px;
     
     .change-icon {
-      font-size: 14px;
-      width: 14px;
-      height: 14px;
+      font-size: 12px;
+      width: 12px;
+      height: 12px;
       margin-right: 2px;
     }
     
     .change-amount, .change-percent {
-      margin-left: 2px;
-    }
-    
-    &.up {
-      color: #4caf50;
-    }
-    
-    &.down {
-      color: #f44336;
+      margin-left: 1px;
     }
   }
 }
 
-// Animación para cambios de precio
-@keyframes priceUpdate {
-  0% { background-color: transparent; }
-  50% { background-color: rgba(255, 255, 255, 0.2); }
-  100% { background-color: transparent; }
-}
-
-.crypto-item:has(.crypto-change.up, .crypto-change.down) {
-  animation: priceUpdate 1s ease;
+// Media queries para responsive
+@media (max-width: 1024px) {
+  .crypto-item {
+    min-width: 140px;
+    margin: 2px 5px;
+    
+    .crypto-price {
+      min-width: 60px;
+    }
+    
+    .crypto-change {
+      min-width: 60px;
+    }
+  }
 }
 
 @media (max-width: 768px) {
+  .crypto-market {
+    max-height: 140px; // Más altura en móvil
+  }
+  
   .crypto-ticker {
     padding: 8px 10px;
+    max-height: 140px;
   }
   
   .ticker-header {
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     
     .header-right {
-      margin-top: 5px;
+      margin-top: 3px;
     }
   }
   
   .crypto-item {
-    min-width: 150px;
-    margin: 2px 5px;
-    padding: 3px 5px;
+    min-width: 120px;
+    margin: 1px 3px;
+    padding: 2px 4px;
+    flex-direction: column;
     
     .crypto-info .crypto-name {
       display: none;
     }
     
+    .crypto-price {
+      min-width: 50px;
+      font-size: 10px;
+      margin-right: 0;
+    }
+    
     .crypto-change {
       flex-direction: column;
-      min-width: 60px;
+      min-width: 50px;
+      font-size: 9px;
       
       .change-amount, .change-percent {
         margin-left: 0;
       }
     }
   }
+  
+  .ticker-content {
+    min-height: 40px;
+    max-height: 80px;
+    overflow-y: auto;
+  }
 }
 
 @media (max-width: 480px) {
   .crypto-item {
-    min-width: 120px;
+    min-width: 100px;
     
     .crypto-price {
-      min-width: 60px;
-      font-size: 12px;
+      min-width: 40px;
+    }
+    
+    .crypto-change {
+      min-width: 40px;
     }
   }
+}
+
+// Scrollbar personalizado para el ticker
+.crypto-ticker::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.crypto-ticker::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.crypto-ticker::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.crypto-ticker::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
 }

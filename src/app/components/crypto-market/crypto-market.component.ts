@@ -12,6 +12,7 @@ export class CryptoMarketComponent implements OnInit, OnDestroy {
   isLoading = true;
   lastUpdate: Date = new Date();
   isRealTime = false;
+  isCollapsed = false;
   private dataSubscription!: Subscription;
 
   constructor(private cryptoService: CryptoService) { }
@@ -51,5 +52,12 @@ export class CryptoMarketComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     // En una implementación real, esto recargaría la conexión WebSocket
     setTimeout(() => this.isLoading = false, 1000);
+  }
+   toggleCollapse(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  get collapseIcon(): string {
+    return this.isCollapsed ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
   }
 }

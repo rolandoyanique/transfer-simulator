@@ -1,4 +1,4 @@
-<div class="crypto-market">
+<div class="crypto-market" [class.collapsed]="isCollapsed">
   <div class="crypto-ticker">
     <div class="ticker-header">
       <div class="header-left">
@@ -14,10 +14,13 @@
         <button mat-icon-button (click)="refreshData()" [disabled]="isLoading">
           <mat-icon>refresh</mat-icon>
         </button>
+        <button mat-icon-button (click)="toggleCollapse()" class="collapse-btn">
+          <mat-icon>{{ collapseIcon }}</mat-icon>
+        </button>
       </div>
     </div>
     
-    <div class="ticker-content" [class.loading]="isLoading">
+    <div class="ticker-content" [class.loading]="isLoading" [class.hidden]="isCollapsed">
       <div *ngIf="isLoading" class="loading-indicator">
         <mat-spinner diameter="20"></mat-spinner>
         <span>{{ 'CRYPTO.LOADING' | translate }}</span>

@@ -1,5 +1,7 @@
 .transfer-simulation {
   padding: 20px 0;
+  min-height: calc(100vh - 200px); // Asegurar altura mínima
+  margin-bottom: 120px; // Espacio para la barra de cripto
 }
 
 .transfer-form {
@@ -42,6 +44,8 @@
   width: 100%;
   height: 50px;
   font-size: 16px;
+  margin-top: 20px;
+  margin-bottom: 40px; // Espacio extra en el botón
   
   mat-spinner {
     display: inline-block;
@@ -62,6 +66,10 @@
 }
 
 @media (max-width: 768px) {
+  .transfer-simulation {
+    margin-bottom: 150px; // Más espacio en móvil
+  }
+  
   .account-details {
     flex-direction: column;
     text-align: center;
@@ -70,5 +78,9 @@
       margin-right: 0;
       margin-bottom: 10px;
     }
+  }
+  
+  .submit-button {
+    margin-bottom: 60px; // Más margen en móvil
   }
 }
