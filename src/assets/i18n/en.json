@@ -57,7 +57,11 @@
     "CURRENCY": "Currency"
   },
   "CRYPTO": {
-    "TITLE": "Crypto Market"
+    "TITLE": "Crypto Market",
+    "LIVE": "Live",
+    "SIMULATED": "Simulated",
+    "LOADING": "Loading data...",
+    "LAST_UPDATE": "Last update"
   },
   "VALIDATION": {
     "REQUIRED": "This field is required",

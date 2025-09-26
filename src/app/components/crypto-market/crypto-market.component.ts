@@ -9,6 +9,9 @@ import { Subscription } from 'rxjs';
 })
 export class CryptoMarketComponent implements OnInit, OnDestroy {
   cryptoData: CryptoCurrency[] = [];
+  isLoading = true;
+  lastUpdate: Date = new Date();
+  isRealTime = false;
   private dataSubscription!: Subscription;
 
   constructor(private cryptoService: CryptoService) { }
@@ -16,6 +19,11 @@ export class CryptoMarketComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.dataSubscription = this.cryptoService.getCryptoData().subscribe(data => {
       this.cryptoData = data;
+      this.isLoading = false;
+      this.lastUpdate = new Date();
+      
+      // Detectar si estamos usando datos en tiempo real o simulados
+      this.isRealTime = data.some(crypto => crypto.lastUpdate.getTime() > Date.now() - 10000);
     });
   }
 
@@ -27,5 +35,21 @@ export class CryptoMarketComponent implements OnInit, OnDestroy {
 
   getChangeClass(change: number): string {
     return change >= 0 ? 'up' : 'down';
+  }
+
+  formatLastUpdate(): string {
+    const now = new Date();
+    const diff = now.getTime() - this.lastUpdate.getTime();
+    const seconds = Math.floor(diff / 1000);
+    
+    if (seconds < 60) return `Hace ${seconds} segundos`;
+    if (seconds < 3600) return `Hace ${Math.floor(seconds / 60)} minutos`;
+    return `Hace ${Math.floor(seconds / 3600)} horas`;
+  }
+
+  refreshData(): void {
+    this.isLoading = true;
+    // En una implementación real, esto recargaría la conexión WebSocket
+    setTimeout(() => this.isLoading = false, 1000);
   }
 }

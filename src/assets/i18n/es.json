@@ -57,7 +57,11 @@
     "CURRENCY": "Moneda"
   },
   "CRYPTO": {
-    "TITLE": "Mercado Cripto"
+    "TITLE": "Mercado Cripto",
+    "LIVE": "En Tiempo Real",
+    "SIMULATED": "Simulado",
+    "LOADING": "Cargando datos...",
+    "LAST_UPDATE": "Última actualización"
   },
   "VALIDATION": {
     "REQUIRED": "Este campo es requerido",

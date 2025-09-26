@@ -1,18 +1,39 @@
 <div class="crypto-market">
   <div class="crypto-ticker">
     <div class="ticker-header">
-      <mat-icon>trending_up</mat-icon>
-      <span>{{ 'CRYPTO.TITLE' | translate }}</span>
-    </div>
-    <div class="ticker-content">
-      <div *ngFor="let crypto of cryptoData" class="crypto-item">
-        <span class="crypto-symbol">{{ crypto.symbol }}</span>
-        <span class="crypto-price">{{ crypto.price | currency:'USD':'symbol':'1.2-2' }}</span>
-        <span class="crypto-change" [class]="getChangeClass(crypto.change)">
-          <mat-icon *ngIf="crypto.change >= 0">arrow_upward</mat-icon>
-          <mat-icon *ngIf="crypto.change < 0">arrow_downward</mat-icon>
-          {{ crypto.change | number:'1.2-2' }} ({{ crypto.changePercent | number:'1.2-2' }}%)
+      <div class="header-left">
+        <mat-icon>trending_up</mat-icon>
+        <span>{{ 'CRYPTO.TITLE' | translate }}</span>
+        <span class="connection-status" [class.connected]="isRealTime" [class.simulated]="!isRealTime">
+          <mat-icon>{{ isRealTime ? 'wifi' : 'wifi_off' }}</mat-icon>
+          {{ isRealTime ? ('CRYPTO.LIVE' | translate) : ('CRYPTO.SIMULATED' | translate) }}
         </span>
+      </div>
+      <div class="header-right">
+        <span class="last-update">{{ formatLastUpdate() }}</span>
+        <button mat-icon-button (click)="refreshData()" [disabled]="isLoading">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+    </div>
+    
+    <div class="ticker-content" [class.loading]="isLoading">
+      <div *ngIf="isLoading" class="loading-indicator">
+        <mat-spinner diameter="20"></mat-spinner>
+        <span>{{ 'CRYPTO.LOADING' | translate }}</span>
+      </div>
+      
+      <div *ngFor="let crypto of cryptoData" class="crypto-item" [class.highlight]="crypto.change !== 0">
+        <div class="crypto-info">
+          <span class="crypto-symbol">{{ crypto.symbol }}</span>
+          <span class="crypto-name">{{ crypto.name }}</span>
+        </div>
+        <div class="crypto-price">{{ crypto.price | currency:'USD':'symbol':'1.2-2' }}</div>
+        <div class="crypto-change" [class]="getChangeClass(crypto.change)">
+          <mat-icon class="change-icon">{{ crypto.change >= 0 ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+          <span class="change-amount">{{ crypto.change | number:'1.2-2' }}</span>
+          <span class="change-percent">({{ crypto.changePercent | number:'1.2-2' }}%)</span>
+        </div>
       </div>
     </div>
   </div>
