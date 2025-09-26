@@ -28,4 +28,22 @@ export interface DashboardStats {
   accountWithMostTransactions: string;
   averageTransaction: number;
   totalAmountByCurrency: { [key: string]: number };
+  
+  // Nuevas propiedades para gráficas
+  transactionsByHour: number[];
+  transactionsByAccount: { accountName: string; count: number }[];
+  amountByAccount: { accountName: string; amount: number }[];
+  dailyTrend: { date: string; transactions: number; amount: number }[];
+}
+export interface ChartData {
+  labels: string[];
+  datasets: ChartDataset[];
+}
+
+export interface ChartDataset {
+  label: string;
+  data: number[];
+  backgroundColor: string | string[];
+  borderColor: string | string[];
+  borderWidth?: number;
 }

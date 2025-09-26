@@ -60,25 +60,85 @@
   }
 }
 
+.charts-section {
+  margin-top: 40px;
+  
+  h2 {
+    margin-bottom: 20px;
+    color: #3f51b5;
+    border-bottom: 2px solid #3f51b5;
+    padding-bottom: 10px;
+  }
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.chart-container {
+  min-height: 300px;
+  
+  &.full-width {
+    grid-column: 1 / -1;
+  }
+  
+  mat-card {
+    height: 100%;
+    
+    mat-card-content {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
 .loading-spinner {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  height: 400px;
 }
 
-.recent-activity {
-  mat-card {
-    min-height: 300px;
-  }
-}
-
+// Estilos responsivos
 @media (max-width: 768px) {
   .stats-grid {
     grid-template-columns: 1fr;
   }
   
+  .chart-row {
+    grid-template-columns: 1fr;
+  }
+  
   .currency-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .chart-container {
+    min-height: 250px;
+  }
+}
+
+// Modo oscuro
+:host-context(.dark-mode) {
+  .dashboard-card {
+    background-color: #424242;
+    
+    h2, p {
+      color: white;
+    }
+  }
+  
+  .currency-item {
+    background-color: #616161;
+    color: white;
+    
+    .currency-label {
+      color: #bb86fc;
+    }
   }
 }

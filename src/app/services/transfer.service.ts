@@ -12,6 +12,7 @@ export class TransferService {
 
   constructor() { }
 
+  // CORREGIDO: Cambiado de getTransfer() a getTransfers()
   getTransfers(): Observable<Transfer[]> {
     return this.transfersSubject.asObservable();
   }
@@ -50,59 +51,82 @@ export class TransferService {
   }
 
   getDashboardStats(): Observable<DashboardStats> {
-  return this.getTransfers().pipe(
-    map(transfers => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      
-      const todayTransfers = transfers.filter(t => {
-        const transferDate = new Date(t.date);
-        transferDate.setHours(0, 0, 0, 0);
-        return transferDate.getTime() === today.getTime();
-      });
+    return this.getTransfers().pipe( // CORREGIDO: Cambiado a getTransfers()
+      map(transfers => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        const todayTransfers = transfers.filter(t => {
+          const transferDate = new Date(t.date);
+          transferDate.setHours(0, 0, 0, 0);
+          return transferDate.getTime() === today.getTime();
+        });
 
-      const totalTransactions = todayTransfers.length;
-      const totalAmount = todayTransfers.reduce((sum, t) => sum + t.amount, 0);
-      const averageTransaction = totalTransactions > 0 ? totalAmount / totalTransactions : 0;
+        const last7Days = this.getLast7Days();
+        const last7DaysTransfers = transfers.filter(t => {
+          const transferDate = new Date(t.date);
+          transferDate.setHours(0, 0, 0, 0);
+          return last7Days.some(day => day.getTime() === transferDate.getTime());
+        });
 
-      // Calcular total por moneda
-      const totalAmountByCurrency: { [key: string]: number } = {};
-      todayTransfers.forEach(transfer => {
-        const currency = transfer.fromAccount.currency;
-        if (!totalAmountByCurrency[currency]) {
-          totalAmountByCurrency[currency] = 0;
+        const totalTransactions = todayTransfers.length;
+        const totalAmount = todayTransfers.reduce((sum, t) => sum + t.amount, 0);
+        const averageTransaction = totalTransactions > 0 ? totalAmount / totalTransactions : 0;
+
+        // Calcular total por moneda
+        const totalAmountByCurrency: { [key: string]: number } = {};
+        todayTransfers.forEach(transfer => {
+          const currency = transfer.fromAccount.currency;
+          if (!totalAmountByCurrency[currency]) {
+            totalAmountByCurrency[currency] = 0;
+          }
+          totalAmountByCurrency[currency] += transfer.amount;
+        });
+
+        // Transacciones por hora (últimas 24 horas)
+        const transactionsByHour = this.calculateTransactionsByHour(transfers);
+
+        // Transacciones por cuenta
+        const transactionsByAccount = this.calculateTransactionsByAccount(todayTransfers);
+
+        // Monto por cuenta
+        const amountByAccount = this.calculateAmountByAccount(todayTransfers);
+
+        // Tendencia diaria (últimos 7 días)
+        const dailyTrend = this.calculateDailyTrend(last7Days, last7DaysTransfers);
+
+        // Find account with most transactions
+        const accountTransactions: { [key: string]: number } = {};
+        todayTransfers.forEach(t => {
+          accountTransactions[t.fromAccount.id] = (accountTransactions[t.fromAccount.id] || 0) + 1;
+        });
+
+        let accountWithMostTransactions = 'N/A';
+        let maxTransactions = 0;
+        for (const accountId in accountTransactions) {
+          if (accountTransactions[accountId] > maxTransactions) {
+            maxTransactions = accountTransactions[accountId];
+            accountWithMostTransactions = accountId;
+          }
         }
-        totalAmountByCurrency[currency] += transfer.amount;
-      });
 
-      // Find account with most transactions
-      const accountTransactions: { [key: string]: number } = {};
-      todayTransfers.forEach(t => {
-        accountTransactions[t.fromAccount.id] = (accountTransactions[t.fromAccount.id] || 0) + 1;
-      });
-
-      let accountWithMostTransactions = 'N/A';
-      let maxTransactions = 0;
-      for (const accountId in accountTransactions) {
-        if (accountTransactions[accountId] > maxTransactions) {
-          maxTransactions = accountTransactions[accountId];
-          accountWithMostTransactions = accountId;
-        }
-      }
-
-      return {
-        totalTransactions,
-        totalAmount,
-        accountWithMostTransactions,
-        averageTransaction,
-        totalAmountByCurrency // Incluir la propiedad
-      };
-    })
-  );
-}
+        return {
+          totalTransactions,
+          totalAmount,
+          accountWithMostTransactions,
+          averageTransaction,
+          totalAmountByCurrency,
+          transactionsByHour,
+          transactionsByAccount,
+          amountByAccount,
+          dailyTrend
+        };
+      })
+    );
+  }
 
   filterTransfers(filters: { accountId?: string; minAmount?: number; maxAmount?: number }): Observable<Transfer[]> {
-    return this.getTransfers().pipe(
+    return this.getTransfers().pipe( // CORREGIDO: Cambiado a getTransfers()
       map(transfers => {
         return transfers.filter(transfer => {
           let matches = true;
@@ -143,14 +167,74 @@ export class TransferService {
   private generateId(): string {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
-  getExchangeRate(fromCurrency: string, toCurrency: string): number {
-  // Simular tasas de cambio (en una app real, esto vendría de una API)
-  const rates: { [key: string]: number } = {
-    'USD_EUR': 0.85,
-    'EUR_USD': 1.18
-  };
-  
-  const key = `${fromCurrency}_${toCurrency}`;
-  return rates[key] || 1; // Retorna 1 si no hay tasa de cambio (misma moneda)
-}
+
+  private getLast7Days(): Date[] {
+    const days: Date[] = [];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      date.setHours(0, 0, 0, 0);
+      days.push(date);
+    }
+    return days;
+  }
+
+  private calculateTransactionsByHour(transfers: Transfer[]): number[] {
+    const hours = Array(24).fill(0);
+    const last24Hours = new Date();
+    last24Hours.setHours(last24Hours.getHours() - 24);
+
+    transfers.forEach(transfer => {
+      if (new Date(transfer.date) >= last24Hours) {
+        const hour = new Date(transfer.date).getHours();
+        hours[hour]++;
+      }
+    });
+
+    return hours;
+  }
+
+  private calculateTransactionsByAccount(transfers: Transfer[]): { accountName: string; count: number }[] {
+    const accountMap: { [key: string]: number } = {};
+
+    transfers.forEach(transfer => {
+      const accountName = transfer.fromAccount.name;
+      accountMap[accountName] = (accountMap[accountName] || 0) + 1;
+    });
+
+    return Object.keys(accountMap).map(accountName => ({
+      accountName,
+      count: accountMap[accountName]
+    })).sort((a, b) => b.count - a.count);
+  }
+
+  private calculateAmountByAccount(transfers: Transfer[]): { accountName: string; amount: number }[] {
+    const accountMap: { [key: string]: number } = {};
+
+    transfers.forEach(transfer => {
+      const accountName = transfer.fromAccount.name;
+      accountMap[accountName] = (accountMap[accountName] || 0) + transfer.amount;
+    });
+
+    return Object.keys(accountMap).map(accountName => ({
+      accountName,
+      amount: accountMap[accountName]
+    })).sort((a, b) => b.amount - a.amount);
+  }
+
+  private calculateDailyTrend(days: Date[], transfers: Transfer[]): { date: string; transactions: number; amount: number }[] {
+    return days.map(day => {
+      const dayTransfers = transfers.filter(t => {
+        const transferDate = new Date(t.date);
+        transferDate.setHours(0, 0, 0, 0);
+        return transferDate.getTime() === day.getTime();
+      });
+
+      return {
+        date: day.toLocaleDateString('es-ES', { weekday: 'short', month: 'short', day: 'numeric' }),
+        transactions: dayTransfers.length,
+        amount: dayTransfers.reduce((sum, t) => sum + t.amount, 0)
+      };
+    });
+  }
 }

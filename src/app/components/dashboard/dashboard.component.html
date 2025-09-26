@@ -5,91 +5,151 @@
     <mat-spinner></mat-spinner>
   </div>
   
-  <div *ngIf="!isLoading" class="stats-grid">
-    <mat-card class="dashboard-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>list_alt</mat-icon>
-          {{ 'DASHBOARD.TOTAL_TRANSACTIONS' | translate }}
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <h2>{{ stats.totalTransactions }}</h2>
-        <p>{{ 'DASHBOARD.TODAY' | translate }}</p>
-      </mat-card-content>
-    </mat-card>
-    
-    <mat-card class="dashboard-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>attach_money</mat-icon>
-          {{ 'DASHBOARD.TOTAL_AMOUNT' | translate }}
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <h2>{{ stats.totalAmount | currency:'USD':'symbol':'1.2-2' }}</h2>
-        <p>{{ 'DASHBOARD.TODAY' | translate }}</p>
-      </mat-card-content>
-    </mat-card>
-    
-    <mat-card class="dashboard-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>account_balance</mat-icon>
-          {{ 'DASHBOARD.ACCOUNT_MOST_TRANSACTIONS' | translate }}
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <h2>{{ getAccountName(stats.accountWithMostTransactions) }}</h2>
-        <p>{{ 'DASHBOARD.MOST_ACTIVE' | translate }}</p>
-      </mat-card-content>
-    </mat-card>
-    
-    <mat-card class="dashboard-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>trending_up</mat-icon>
-          {{ 'DASHBOARD.AVERAGE_TRANSACTION' | translate }}
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <h2>{{ stats.averageTransaction | currency:'USD':'symbol':'1.2-2' }}</h2>
-        <p>{{ 'DASHBOARD.PER_TRANSACTION' | translate }}</p>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <div *ngIf="!isLoading">
+    <!-- Estadísticas principales -->
+    <div class="stats-grid">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>list_alt</mat-icon>
+            {{ 'DASHBOARD.TOTAL_TRANSACTIONS' | translate }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ stats.totalTransactions }}</h2>
+          <p>{{ 'DASHBOARD.TODAY' | translate }}</p>
+        </mat-card-content>
+      </mat-card>
+      
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>attach_money</mat-icon>
+            {{ 'DASHBOARD.TOTAL_AMOUNT' | translate }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ stats.totalAmount | currency:'USD':'symbol':'1.2-2' }}</h2>
+          <p>{{ 'DASHBOARD.TODAY' | translate }}</p>
+        </mat-card-content>
+      </mat-card>
+      
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>account_balance</mat-icon>
+            {{ 'DASHBOARD.ACCOUNT_MOST_TRANSACTIONS' | translate }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ getAccountName(stats.accountWithMostTransactions) }}</h2>
+          <p>{{ 'DASHBOARD.MOST_ACTIVE' | translate }}</p>
+        </mat-card-content>
+      </mat-card>
+      
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>trending_up</mat-icon>
+            {{ 'DASHBOARD.AVERAGE_TRANSACTION' | translate }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ stats.averageTransaction | currency:'USD':'symbol':'1.2-2' }}</h2>
+          <p>{{ 'DASHBOARD.PER_TRANSACTION' | translate }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
-  <!-- Sección de montos por moneda -->
-  <div *ngIf="!isLoading && getCurrencies().length > 0" class="currency-breakdown">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>currency_exchange</mat-icon>
-          {{ 'DASHBOARD.AMOUNT_BY_CURRENCY' | translate }}
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="currency-grid">
-          <div *ngFor="let currency of getCurrencies()" class="currency-item">
-            <span class="currency-label">{{ currency }}</span>
-            <span class="currency-amount">{{ formatCurrencyAmount(currency) }}</span>
+    <!-- Sección de montos por moneda -->
+    <div *ngIf="getCurrencies().length > 0" class="currency-breakdown">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>currency_exchange</mat-icon>
+            {{ 'DASHBOARD.AMOUNT_BY_CURRENCY' | translate }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="currency-grid">
+            <div *ngFor="let currency of getCurrencies()" class="currency-item">
+              <span class="currency-label">{{ currency }}</span>
+              <span class="currency-amount">{{ formatCurrencyAmount(currency) }}</span>
+            </div>
           </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Gráficas -->
+    <div class="charts-section">
+      <h2>{{ 'DASHBOARD.CHARTS' | translate }}</h2>
+      
+      <!-- Gráfica 1: Transacciones por hora -->
+      <div class="chart-row">
+        <div class="chart-container">
+          <mat-card>
+            <mat-card-content>
+              <canvas baseChart
+                [data]="hourlyChartData"
+                [options]="hourlyChartOptions"
+                [type]="hourlyChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+              </canvas>
+            </mat-card-content>
+          </mat-card>
         </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  
-  <div class="recent-activity mt-20">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>schedule</mat-icon>
-          {{ 'DASHBOARD.RECENT_ACTIVITY' | translate }}
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>{{ 'DASHBOARD.COMING_SOON' | translate }}</p>
-      </mat-card-content>
-    </mat-card>
+
+        <!-- Gráfica 2: Transacciones por cuenta -->
+        <div class="chart-container">
+          <mat-card>
+            <mat-card-content>
+              <canvas baseChart
+                [data]="accountChartData"
+                [options]="accountChartOptions"
+                [type]="accountChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+              </canvas>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- Gráfica 3: Tendencia de transacciones -->
+      <div class="chart-row">
+        <div class="chart-container full-width">
+          <mat-card>
+            <mat-card-content>
+              <canvas baseChart
+                [data]="trendChartData"
+                [options]="trendChartOptions"
+                [type]="trendChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+              </canvas>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- Gráfica 4: Monto por cuenta -->
+      <div class="chart-row">
+        <div class="chart-container full-width">
+          <mat-card>
+            <mat-card-content>
+              <canvas baseChart
+                [data]="amountChartData"
+                [options]="amountChartOptions"
+                [type]="amountChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+              </canvas>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

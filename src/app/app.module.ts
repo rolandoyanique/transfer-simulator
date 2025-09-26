@@ -42,6 +42,7 @@ import { AccountService } from './services/account.service';
 import { CryptoService } from './services/crypto.service';
 import { NotificationService } from './services/notification.service';
 
+import { NgChartsModule } from 'ng2-charts';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -83,6 +84,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatTooltipModule,
     MatSlideToggleModule,
     MatChipsModule,
+    NgChartsModule, 
     // Translation
     TranslateModule.forRoot({
       loader: {

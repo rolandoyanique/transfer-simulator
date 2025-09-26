@@ -134,3 +134,29 @@ html, body {
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// Estilos globales para las gráficas
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin: 0 10px 5px 0;
+    
+    .legend-color {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      border-radius: 3px;
+    }
+  }
+}
+
+// Asegurar que las gráficas sean responsivas
+canvas {
+  max-width: 100%;
+  height: auto !important;
+}

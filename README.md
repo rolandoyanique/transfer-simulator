@@ -8,7 +8,7 @@ Una aplicación web moderna para simular transferencias entre cuentas bancarias,
 - ✅ Validaciones en tiempo real (saldo, misma cuenta)
 - ✅ Historial de transferencias con filtros
 - ✅ Dashboard con estadísticas
-- ✅ Mercado de criptomonedas en tiempo real (simulado)
+- ✅ Mercado de criptomonedas en tiempo real
 - ✅ Internacionalización (Español/Inglés)
 - ✅ Diseño responsive
 - ✅ Modo oscuro/claro
