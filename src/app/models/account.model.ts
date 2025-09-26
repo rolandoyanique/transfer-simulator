@@ -6,6 +6,8 @@ export interface Account {
   currency: string;
   photo: string;
   accountNumber: string;
+  email?: string;
+  phone?: string;
 }
 
 export interface Transfer {
@@ -16,6 +18,8 @@ export interface Transfer {
   date: Date;
   status: 'completed' | 'failed' | 'pending';
   description?: string;
+  exchangeRate?: number;
+  convertedAmount?: number;
 }
 
 export interface DashboardStats {
@@ -23,4 +27,5 @@ export interface DashboardStats {
   totalAmount: number;
   accountWithMostTransactions: string;
   averageTransaction: number;
+  totalAmountByCurrency: { [key: string]: number };
 }

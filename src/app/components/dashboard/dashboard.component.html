@@ -58,6 +58,26 @@
       </mat-card-content>
     </mat-card>
   </div>
+
+  <!-- Sección de montos por moneda -->
+  <div *ngIf="!isLoading && getCurrencies().length > 0" class="currency-breakdown">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>currency_exchange</mat-icon>
+          {{ 'DASHBOARD.AMOUNT_BY_CURRENCY' | translate }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="currency-grid">
+          <div *ngFor="let currency of getCurrencies()" class="currency-item">
+            <span class="currency-label">{{ currency }}</span>
+            <span class="currency-amount">{{ formatCurrencyAmount(currency) }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
   
   <div class="recent-activity mt-20">
     <mat-card>
@@ -69,7 +89,6 @@
       </mat-card-header>
       <mat-card-content>
         <p>{{ 'DASHBOARD.COMING_SOON' | translate }}</p>
-        <!-- Aquí se podría agregar un gráfico con ngx-charts -->
       </mat-card-content>
     </mat-card>
   </div>

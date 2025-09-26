@@ -36,5 +36,7 @@ Una aplicación web moderna para simular transferencias entre cuentas bancarias,
 ### 1. Clonar el repositorio
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/rolandoyanique/transfer-simulator.git
 cd transfer-simulator
+npm install
+ng serve -o

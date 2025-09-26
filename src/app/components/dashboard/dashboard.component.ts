@@ -15,7 +15,8 @@ export class DashboardComponent implements OnInit {
     totalTransactions: 0,
     totalAmount: 0,
     accountWithMostTransactions: 'N/A',
-    averageTransaction: 0
+    averageTransaction: 0,
+    totalAmountByCurrency: {} // Inicializar la propiedad faltante
   };
   
   accounts: Account[] = [];
@@ -48,5 +49,17 @@ export class DashboardComponent implements OnInit {
   getAccountName(accountId: string): string {
     const account = this.accounts.find(acc => acc.id === accountId);
     return account ? account.name : accountId;
+  }
+
+  // Método auxiliar para obtener las monedas disponibles
+  getCurrencies(): string[] {
+    return Object.keys(this.stats.totalAmountByCurrency || {});
+  }
+
+  // Método para formatear el monto por moneda
+  formatCurrencyAmount(currency: string): string {
+    const amount = this.stats.totalAmountByCurrency[currency];
+    const symbol = currency === 'USD' ? '$' : '€';
+    return `${symbol} ${amount.toFixed(2)}`;
   }
 }

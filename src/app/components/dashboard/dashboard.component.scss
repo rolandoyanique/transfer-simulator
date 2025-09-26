@@ -31,6 +31,35 @@
   }
 }
 
+.currency-breakdown {
+  margin-bottom: 30px;
+}
+
+.currency-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.currency-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  
+  .currency-label {
+    font-weight: bold;
+    color: #3f51b5;
+  }
+  
+  .currency-amount {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+}
+
 .loading-spinner {
   display: flex;
   justify-content: center;
@@ -46,6 +75,10 @@
 
 @media (max-width: 768px) {
   .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .currency-grid {
     grid-template-columns: 1fr;
   }
 }

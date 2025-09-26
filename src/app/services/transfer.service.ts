@@ -50,45 +50,56 @@ export class TransferService {
   }
 
   getDashboardStats(): Observable<DashboardStats> {
-    return this.getTransfers().pipe(
-      map(transfers => {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        
-        const todayTransfers = transfers.filter(t => {
-          const transferDate = new Date(t.date);
-          transferDate.setHours(0, 0, 0, 0);
-          return transferDate.getTime() === today.getTime();
-        });
+  return this.getTransfers().pipe(
+    map(transfers => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      const todayTransfers = transfers.filter(t => {
+        const transferDate = new Date(t.date);
+        transferDate.setHours(0, 0, 0, 0);
+        return transferDate.getTime() === today.getTime();
+      });
 
-        const totalTransactions = todayTransfers.length;
-        const totalAmount = todayTransfers.reduce((sum, t) => sum + t.amount, 0);
-        const averageTransaction = totalTransactions > 0 ? totalAmount / totalTransactions : 0;
+      const totalTransactions = todayTransfers.length;
+      const totalAmount = todayTransfers.reduce((sum, t) => sum + t.amount, 0);
+      const averageTransaction = totalTransactions > 0 ? totalAmount / totalTransactions : 0;
 
-        // Find account with most transactions
-        const accountTransactions: { [key: string]: number } = {};
-        todayTransfers.forEach(t => {
-          accountTransactions[t.fromAccount.id] = (accountTransactions[t.fromAccount.id] || 0) + 1;
-        });
-
-        let accountWithMostTransactions = 'N/A';
-        let maxTransactions = 0;
-        for (const accountId in accountTransactions) {
-          if (accountTransactions[accountId] > maxTransactions) {
-            maxTransactions = accountTransactions[accountId];
-            accountWithMostTransactions = accountId;
-          }
+      // Calcular total por moneda
+      const totalAmountByCurrency: { [key: string]: number } = {};
+      todayTransfers.forEach(transfer => {
+        const currency = transfer.fromAccount.currency;
+        if (!totalAmountByCurrency[currency]) {
+          totalAmountByCurrency[currency] = 0;
         }
+        totalAmountByCurrency[currency] += transfer.amount;
+      });
 
-        return {
-          totalTransactions,
-          totalAmount,
-          accountWithMostTransactions,
-          averageTransaction
-        };
-      })
-    );
-  }
+      // Find account with most transactions
+      const accountTransactions: { [key: string]: number } = {};
+      todayTransfers.forEach(t => {
+        accountTransactions[t.fromAccount.id] = (accountTransactions[t.fromAccount.id] || 0) + 1;
+      });
+
+      let accountWithMostTransactions = 'N/A';
+      let maxTransactions = 0;
+      for (const accountId in accountTransactions) {
+        if (accountTransactions[accountId] > maxTransactions) {
+          maxTransactions = accountTransactions[accountId];
+          accountWithMostTransactions = accountId;
+        }
+      }
+
+      return {
+        totalTransactions,
+        totalAmount,
+        accountWithMostTransactions,
+        averageTransaction,
+        totalAmountByCurrency // Incluir la propiedad
+      };
+    })
+  );
+}
 
   filterTransfers(filters: { accountId?: string; minAmount?: number; maxAmount?: number }): Observable<Transfer[]> {
     return this.getTransfers().pipe(
@@ -132,4 +143,14 @@ export class TransferService {
   private generateId(): string {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
+  getExchangeRate(fromCurrency: string, toCurrency: string): number {
+  // Simular tasas de cambio (en una app real, esto vendría de una API)
+  const rates: { [key: string]: number } = {
+    'USD_EUR': 0.85,
+    'EUR_USD': 1.18
+  };
+  
+  const key = `${fromCurrency}_${toCurrency}`;
+  return rates[key] || 1; // Retorna 1 si no hay tasa de cambio (misma moneda)
+}
 }

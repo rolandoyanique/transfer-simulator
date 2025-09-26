@@ -18,17 +18,19 @@
           </mat-error>
         </mat-form-field>
 
-        <!-- Información de cuenta origen -->
-        <div *ngIf="selectedFromAccount" class="account-info">
-          <div class="account-details">
-            <img [src]="selectedFromAccount.photo" [alt]="selectedFromAccount.name" class="account-photo">
-            <div>
-              <h3>{{ selectedFromAccount.name }}</h3>
-              <p>{{ selectedFromAccount.type }} - {{ selectedFromAccount.accountNumber }}</p>
-              <p><strong>{{ 'ACCOUNT.BALANCE' | translate }}:</strong> {{ selectedFromAccount.balance | currency:'USD':'symbol':'1.2-2' }}</p>
-            </div>
-          </div>
-        </div>
+       <!-- Información de cuenta origen -->
+<div *ngIf="selectedFromAccount" class="account-info">
+  <div class="account-details">
+    <img [src]="selectedFromAccount.photo" [alt]="selectedFromAccount.name" class="account-photo">
+    <div>
+      <h3>{{ selectedFromAccount.name }}</h3>
+      <p>{{ selectedFromAccount.type }} - {{ selectedFromAccount.accountNumber }}</p>
+      <p><strong>{{ 'ACCOUNT.BALANCE' | translate }}:</strong> 
+         {{ formatAmount(selectedFromAccount.balance, selectedFromAccount.currency) }}</p>
+      <p><strong>{{ 'ACCOUNT.CURRENCY' | translate }}:</strong> {{ selectedFromAccount.currency }}</p>
+    </div>
+  </div>
+</div>
 
         <!-- Cuenta destino -->
         <mat-form-field class="form-field" appearance="fill">
@@ -54,12 +56,12 @@
         </div>
 
         <!-- Monto -->
-        <mat-form-field class="form-field" appearance="fill">
-          <mat-label>{{ 'TRANSFER.SIMULATION.AMOUNT' | translate }}</mat-label>
-          <input matInput type="number" formControlName="amount" required>
-          <span matPrefix>$ &nbsp;</span>
-          <mat-error>{{ getAmountErrorMessage() }}</mat-error>
-        </mat-form-field>
+<mat-form-field class="form-field" appearance="fill">
+  <mat-label>{{ 'TRANSFER.SIMULATION.AMOUNT' | translate }}</mat-label>
+  <input matInput type="number" formControlName="amount" required>
+  <span matPrefix>{{ selectedFromAccount ? getCurrencySymbol(selectedFromAccount.currency) : '$' }} &nbsp;</span>
+  <mat-error>{{ getAmountErrorMessage() }}</mat-error>
+</mat-form-field>
 
         <!-- Descripción -->
         <mat-form-field class="form-field" appearance="fill">

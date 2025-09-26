@@ -65,26 +65,33 @@ export class TransferSimulationComponent implements OnInit {
   }
 
   private validateForm(): void {
-    const fromAccount = this.transferForm.get('fromAccount');
-    const toAccount = this.transferForm.get('toAccount');
-    const amount = this.transferForm.get('amount');
+  const fromAccount = this.transferForm.get('fromAccount');
+  const toAccount = this.transferForm.get('toAccount');
+  const amount = this.transferForm.get('amount');
 
-    // Validate same account
-    if (fromAccount?.value && toAccount?.value && fromAccount.value === toAccount.value) {
-      toAccount.setErrors({ sameAccount: true });
-    } else if (toAccount?.errors?.['sameAccount']) {
-      toAccount.setErrors(null);
+  // Validar misma cuenta
+  if (fromAccount?.value && toAccount?.value && fromAccount.value === toAccount.value) {
+    toAccount.setErrors({ sameAccount: true });
+  } else if (toAccount?.errors?.['sameAccount']) {
+    toAccount.setErrors(null);
+  }
+
+  // Validar balance considerando la moneda
+  if (this.selectedFromAccount && amount?.value) {
+    if (amount.value > this.selectedFromAccount.balance) {
+      amount.setErrors({ insufficientBalance: true });
+    } else if (amount.errors?.['insufficientBalance']) {
+      amount.setErrors(null);
     }
-
-    // Validate balance
-    if (this.selectedFromAccount && amount?.value) {
-      if (amount.value > this.selectedFromAccount.balance) {
-        amount.setErrors({ insufficientBalance: true });
-      } else if (amount.errors?.['insufficientBalance']) {
-        amount.setErrors(null);
-      }
+    
+    // Validar conversión de moneda si es necesario
+    if (this.selectedToAccount && 
+        this.selectedFromAccount.currency !== this.selectedToAccount.currency) {
+      // Aquí podrías agregar lógica de conversión de moneda
+      console.log('Transferencia entre diferentes monedas');
     }
   }
+}
 
   onSubmit(): void {
     if (this.transferForm.valid && this.selectedFromAccount && this.selectedToAccount) {
@@ -139,4 +146,13 @@ export class TransferSimulationComponent implements OnInit {
     
     return '';
   }
+  getCurrencySymbol(currency: string): string {
+  return currency === 'USD' ? '$' : '€';
+}
+
+formatAmount(amount: number, currency: string): string {
+  const symbol = this.getCurrencySymbol(currency);
+  return `${symbol} ${amount.toFixed(2)}`;
+}
+
 }

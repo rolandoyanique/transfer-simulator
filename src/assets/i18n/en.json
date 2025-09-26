@@ -13,6 +13,7 @@
     "TOTAL_AMOUNT": "Total Amount",
     "ACCOUNT_MOST_TRANSACTIONS": "Account with Most Transactions",
     "AVERAGE_TRANSACTION": "Average Transaction",
+    "AMOUNT_BY_CURRENCY": "Amount by Currency",
     "TODAY": "Today",
     "MOST_ACTIVE": "Most Active",
     "PER_TRANSACTION": "Per Transaction",
@@ -52,7 +53,8 @@
     }
   },
   "ACCOUNT": {
-    "BALANCE": "Balance"
+    "BALANCE": "Balance",
+    "CURRENCY": "Currency"
   },
   "CRYPTO": {
     "TITLE": "Crypto Market"

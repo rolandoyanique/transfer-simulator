@@ -13,6 +13,7 @@
     "TOTAL_AMOUNT": "Monto Total",
     "ACCOUNT_MOST_TRANSACTIONS": "Cuenta con Más Transacciones",
     "AVERAGE_TRANSACTION": "Transacción Promedio",
+    "AMOUNT_BY_CURRENCY": "Monto por Moneda",
     "TODAY": "Hoy",
     "MOST_ACTIVE": "Más Activa",
     "PER_TRANSACTION": "Por Transacción",
@@ -52,7 +53,8 @@
     }
   },
   "ACCOUNT": {
-    "BALANCE": "Saldo"
+    "BALANCE": "Saldo",
+    "CURRENCY": "Moneda"
   },
   "CRYPTO": {
     "TITLE": "Mercado Cripto"
