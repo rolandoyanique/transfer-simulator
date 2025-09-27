@@ -14,6 +14,10 @@ Una aplicación web moderna para simular transferencias entre cuentas bancarias,
 - ✅ Modo oscuro/claro
 - ✅ Notificaciones toast
 - ✅ Almacenamiento local (LocalStorage)
+- ✅ Reportes
+- ✅ Filtros
+- ✅ Graficas de torta
+- ✅ Menu responsivo
 
 ## Tecnologías Utilizadas
 
@@ -24,6 +28,7 @@ Una aplicación web moderna para simular transferencias entre cuentas bancarias,
 - WebSocket (simulado)
 - i18n (Internacionalización)
 - CSS/SCSS
+- charts
 
 ## Requisitos Previos
 
