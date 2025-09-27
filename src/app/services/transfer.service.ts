@@ -409,31 +409,51 @@ export class TransferService {
     );
   }
 
-  filterTransfers(filters: { accountId?: string; minAmount?: number; maxAmount?: number }): Observable<Transfer[]> {
-    return this.getTransfers().pipe( // CORREGIDO: Cambiado a getTransfers()
-      map(transfers => {
-        return transfers.filter(transfer => {
-          let matches = true;
-          
-          if (filters.accountId) {
-            matches = matches && 
-              (transfer.fromAccount.id === filters.accountId || 
-               transfer.toAccount.id === filters.accountId);
-          }
-          
-          if (filters.minAmount !== undefined) {
-            matches = matches && transfer.amount >= filters.minAmount;
-          }
-          
-          if (filters.maxAmount !== undefined) {
-            matches = matches && transfer.amount <= filters.maxAmount;
-          }
-          
-          return matches;
-        });
-      })
-    );
-  }
+  filterTransfers(filters: { 
+  fromAccount?: string; 
+  toAccount?: string; 
+  minAmount?: number; 
+  maxAmount?: number;
+  dateRange?: { start: Date; end: Date };
+}): Observable<Transfer[]> {
+  return this.getTransfers().pipe(
+    map(transfers => {
+      return transfers.filter(transfer => {
+        let matches = true;
+        
+        // Filtro por cuenta origen
+        if (filters.fromAccount && filters.fromAccount !== '') {
+          matches = matches && transfer.fromAccount.id === filters.fromAccount;
+        }
+        
+        // Filtro por cuenta destino
+        if (filters.toAccount && filters.toAccount !== '') {
+          matches = matches && transfer.toAccount.id === filters.toAccount;
+        }
+        
+        // Filtro por monto mínimo
+        if (filters.minAmount !== undefined && filters.minAmount !== null) {
+          matches = matches && transfer.amount >= filters.minAmount;
+        }
+        
+        // Filtro por monto máximo
+        if (filters.maxAmount !== undefined && filters.maxAmount !== null) {
+          matches = matches && transfer.amount <= filters.maxAmount;
+        }
+        
+        // Filtro por rango de fechas
+        if (filters.dateRange && filters.dateRange.start && filters.dateRange.end) {
+          const transferDate = new Date(transfer.date);
+          matches = matches && 
+                    transferDate >= filters.dateRange.start && 
+                    transferDate <= filters.dateRange.end;
+        }
+        
+        return matches;
+      });
+    })
+  );
+}
 
   private getStoredTransfers(): Transfer[] {
     try {
@@ -521,4 +541,5 @@ export class TransferService {
       };
     });
   }
+  
 }
