@@ -206,3 +206,38 @@ app-transfer-simulation {
     min-height: calc(100vh - 240px);
   }
 }
+.hamburger-button {
+  transition: transform 0.3s ease;
+  
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+// Sidenav backdrop
+.mat-drawer-backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+// Smooth transitions for mobile
+@media (max-width: 768px) {
+  .mat-sidenav-content {
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  
+  // Improve touch targets for mobile
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+// Ensure proper z-index for mobile menu
+.mobile-sidenav {
+  z-index: 1001;
+}
+
+// Hide scrollbar when sidenav is open
+body.sidenav-open {
+  overflow: hidden;
+}

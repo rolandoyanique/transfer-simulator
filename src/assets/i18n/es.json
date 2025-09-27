@@ -53,9 +53,18 @@
       "FAILED": "Fallida"
     }
   },
+  "SETTINGS": {
+    "LANGUAGE": "Idioma",
+    "THEME": "Tema",
+    "LIGHT": "Claro",
+    "DARK": "Oscuro"
+  },
   "ACCOUNT": {
     "BALANCE": "Saldo",
-    "CURRENCY": "Moneda"
+    "CURRENCY": "Moneda",
+    "REFRESH": "Actualizar cuentas",
+    "REFRESH_SUCCESS": "Cuentas actualizadas correctamente",
+    "REFRESH_ERROR": "Error al actualizar las cuentas"
   },
   "CRYPTO": {
     "TITLE": "Mercado Cripto",

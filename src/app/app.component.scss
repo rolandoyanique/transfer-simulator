@@ -1,30 +1,292 @@
-.sub-toolbar {
-  min-height: 48px !important;
-  height: 48px !important;
+.sidenav-container {
+  height: 100vh;
+  background-color: #fafafa;
+}
+
+// Main toolbar styles
+.main-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
   
-  button {
-    min-height: 48px;
-    height: 48px;
+  .hamburger-button {
+    margin-right: 16px;
+  }
+  
+  .toolbar-title {
+    display: flex;
+    align-items: center;
     
-    &.active {
-      background-color: rgba(255, 255, 255, 0.1);
+    .logo-icon {
+      margin-right: 8px;
+    }
+    
+    .title-text {
+      font-weight: 500;
     }
   }
-}
-
-:host ::ng-deep .mat-toolbar {
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
-}
-
-@media (max-width: 768px) {
-  .sub-toolbar {
-    button {
-      min-width: auto;
-      padding: 0 8px;
+  
+  .desktop-nav {
+    display: flex;
+    
+    .nav-button {
+      margin: 0 4px;
       
-      span {
-        display: none;
+      &.active {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      
+      mat-icon {
+        margin-right: 8px;
       }
     }
   }
+  
+  .desktop-settings {
+    display: flex;
+    align-items: center;
+    
+    .language-button {
+      min-width: auto;
+      padding: 0 8px;
+      margin: 0 2px;
+      
+      &.active {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+    
+    .dark-mode-toggle {
+      margin: 0 16px;
+    }
+  }
+  
+  .mobile-settings {
+    display: flex;
+    align-items: center;
+  }
+}
+
+// Sidenav styles for mobile
+.mobile-sidenav {
+  width: 280px;
+  background-color: #fafafa;
+  
+  &.mat-sidenav {
+    border-right: 1px solid #e0e0e0;
+  }
+}
+
+.sidenav-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  .user-info {
+    padding: 24px 16px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #3f51b5, #2196f3);
+    color: white;
+    
+    .user-avatar {
+      margin-right: 16px;
+      
+      mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+      }
+    }
+    
+    .user-details {
+      h3 {
+        margin: 0 0 4px 0;
+        font-weight: 500;
+      }
+      
+      p {
+        margin: 0;
+        opacity: 0.8;
+        font-size: 14px;
+      }
+    }
+  }
+  
+  .sidenav-menu {
+    flex: 1;
+    padding: 16px 0;
+    
+    a[mat-list-item] {
+      height: 48px;
+      margin: 4px 8px;
+      border-radius: 4px;
+      
+      &.active {
+        background-color: #e3f2fd;
+        color: #1976d2;
+        
+        mat-icon {
+          color: #1976d2;
+        }
+      }
+      
+      mat-icon {
+        margin-right: 16px;
+        color: #757575;
+      }
+      
+      span {
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .sidenav-settings {
+    padding: 16px;
+    
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      
+      span {
+        font-weight: 500;
+        color: #424242;
+      }
+      
+      .language-buttons {
+        display: flex;
+        
+        button {
+          min-width: 40px;
+          margin: 0 2px;
+          
+          &.active {
+            background-color: #e3f2fd;
+            color: #1976d2;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Main content area
+.main-content {
+  margin-top: 64px; // Height of the toolbar
+  min-height: calc(100vh - 64px);
+  padding-bottom: 120px; // Space for crypto market
+  
+  .container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+// Dark mode styles
+:host-context(.dark-mode) {
+  .sidenav-container {
+    background-color: #303030;
+  }
+  
+  .mobile-sidenav {
+    background-color: #424242;
+    color: white;
+    
+    &.mat-sidenav {
+      border-right: 1px solid #616161;
+    }
+  }
+  
+  .sidenav-content {
+    .user-info {
+      background: linear-gradient(135deg, #303f9f, #1976d2);
+    }
+    
+    .sidenav-menu {
+      a[mat-list-item] {
+        color: white;
+        
+        &.active {
+          background-color: #37474f;
+          color: #4fc3f7;
+          
+          mat-icon {
+            color: #4fc3f7;
+          }
+        }
+        
+        mat-icon {
+          color: #b0bec5;
+        }
+      }
+    }
+    
+    .sidenav-settings {
+      .setting-item {
+        span {
+          color: #e0e0e0;
+        }
+        
+        .language-buttons {
+          button.active {
+            background-color: #37474f;
+            color: #4fc3f7;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .main-toolbar {
+    .desktop-nav,
+    .desktop-settings {
+      display: none !important;
+    }
+    
+    .toolbar-title .title-text {
+      font-size: 16px;
+    }
+  }
+  
+  .main-content {
+    margin-top: 56px; // Smaller toolbar on mobile
+    
+    .container {
+      padding: 10px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-sidenav {
+    width: 100vw;
+  }
+  
+  .main-toolbar {
+    .toolbar-title .title-text {
+      font-size: 14px;
+    }
+  }
+}
+
+// Animation for sidenav
+.mat-sidenav-transition .mat-sidenav-content {
+  transition-duration: 400ms;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-property: transform, margin-left, margin-right;
+}
+
+// Ensure proper scrolling
+.mat-sidenav-content {
+  overflow-x: hidden;
 }

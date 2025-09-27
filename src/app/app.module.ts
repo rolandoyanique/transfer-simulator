@@ -35,7 +35,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TransferSimulationComponent } from './components/transfer-simulation/transfer-simulation.component';
 import { TransferHistoryComponent } from './components/transfer-history/transfer-history.component';
 import { CryptoMarketComponent } from './components/crypto-market/crypto-market.component';
-
+import { MatSidenavModule } from '@angular/material/sidenav';
 // Services
 import { TransferService } from './services/transfer.service';
 import { AccountService } from './services/account.service';
@@ -43,6 +43,7 @@ import { CryptoService } from './services/crypto.service';
 import { NotificationService } from './services/notification.service';
 
 import { NgChartsModule } from 'ng2-charts';
+import { RefreshAccountsComponent } from './components/refresh-accounts/refresh-accounts.component';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -54,7 +55,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DashboardComponent,
     TransferSimulationComponent,
     TransferHistoryComponent,
-    CryptoMarketComponent
+    CryptoMarketComponent,
+    RefreshAccountsComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +65,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    
+    MatSidenavModule,
     // Angular Material
     MatToolbarModule,
     MatButtonModule,

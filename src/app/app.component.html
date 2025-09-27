@@ -1,48 +1,177 @@
-<mat-toolbar color="primary">
-  <button mat-icon-button (click)="sidenav.toggle()" class="mobile-hidden">
-    <mat-icon>menu</mat-icon>
-  </button>
-  
-  <span>{{ 'APP.TITLE' | translate }}</span>
-  
-  <span class="flex-spacer"></span>
-  
-  <!-- Language switcher -->
-  <button mat-button (click)="switchLanguage('es')" [class.active]="currentLang === 'es'">
-    ES
-  </button>
-  <button mat-button (click)="switchLanguage('en')" [class.active]="currentLang === 'en'">
-    EN
-  </button>
-  
-  <!-- Dark mode toggle -->
-  <mat-slide-toggle 
-    [checked]="isDarkMode" 
-    (change)="toggleDarkMode()"
-    class="mobile-hidden">
-    <mat-icon>{{isDarkMode ? 'brightness_3' : 'wb_sunny'}}</mat-icon>
-  </mat-slide-toggle>
-</mat-toolbar>
+<!-- Main container with sidenav -->
+<mat-sidenav-container class="sidenav-container">
+  <!-- Sidenav for mobile -->
+  <mat-sidenav #sidenav 
+               mode="over" 
+               [fixedInViewport]="isMobile"
+               [fixedTopGap]="56"
+               [fixedBottomGap]="0"
+               class="mobile-sidenav">
+    
+    <div class="sidenav-content">
+      <!-- User info section -->
+      <div class="user-info">
+        <div class="user-avatar">
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <div class="user-details">
+          <h3>Usuario</h3>
+          <p>Simulador Bancario</p>
+        </div>
+      </div>
 
-<mat-toolbar color="accent" class="sub-toolbar">
-  <button mat-button routerLink="/dashboard" routerLinkActive="active">
-    <mat-icon>dashboard</mat-icon>
-    {{ 'MENU.DASHBOARD' | translate }}
-  </button>
-  <button mat-button routerLink="/simulation" routerLinkActive="active">
-    <mat-icon>compare_arrows</mat-icon>
-    {{ 'MENU.SIMULATION' | translate }}
-  </button>
-  <button mat-button routerLink="/history" routerLinkActive="active">
-    <mat-icon>history</mat-icon>
-    {{ 'MENU.HISTORY' | translate }}
-  </button>
-</mat-toolbar>
+      <mat-divider></mat-divider>
 
-<main class="main-content">
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
-</main>
+      <!-- Navigation menu -->
+      <nav class="sidenav-menu">
+        <a mat-list-item 
+           routerLink="/dashboard" 
+           routerLinkActive="active"
+           (click)="navigateTo('/dashboard')">
+          <mat-icon>dashboard</mat-icon>
+          <span>{{ 'MENU.DASHBOARD' | translate }}</span>
+        </a>
 
-<app-crypto-market></app-crypto-market>
+        <a mat-list-item 
+           routerLink="/simulation" 
+           routerLinkActive="active"
+           (click)="navigateTo('/simulation')">
+          <mat-icon>compare_arrows</mat-icon>
+          <span>{{ 'MENU.SIMULATION' | translate }}</span>
+        </a>
+
+        <a mat-list-item 
+           routerLink="/history" 
+           routerLinkActive="active"
+           (click)="navigateTo('/history')">
+          <mat-icon>history</mat-icon>
+          <span>{{ 'MENU.HISTORY' | translate }}</span>
+        </a>
+      </nav>
+
+      <mat-divider></mat-divider>
+
+      <!-- Settings section -->
+      <div class="sidenav-settings">
+        <div class="setting-item">
+          <span>{{ 'SETTINGS.LANGUAGE' | translate }}</span>
+          <div class="language-buttons">
+            <button mat-icon-button 
+                    (click)="switchLanguage('es')" 
+                    [class.active]="currentLang === 'es'"
+                    matTooltip="Español">
+              ES
+            </button>
+            <button mat-icon-button 
+                    (click)="switchLanguage('en')" 
+                    [class.active]="currentLang === 'en'"
+                    matTooltip="English">
+              EN
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <span>{{ 'SETTINGS.THEME' | translate }}</span>
+          <mat-slide-toggle 
+            [checked]="isDarkMode" 
+            (change)="toggleDarkMode()">
+            {{ isDarkMode ? ('SETTINGS.DARK' | translate) : ('SETTINGS.LIGHT' | translate) }}
+          </mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <!-- Main content -->
+  <mat-sidenav-content>
+    <!-- Top toolbar -->
+    <mat-toolbar color="primary" class="main-toolbar">
+      <!-- Hamburger menu for mobile -->
+      <button mat-icon-button 
+              (click)="toggleSidenav()" 
+              class="hamburger-button"
+              *ngIf="isMobile">
+        <mat-icon>menu</mat-icon>
+      </button>
+      
+      <!-- Logo and title -->
+      <div class="toolbar-title">
+        <mat-icon class="logo-icon">account_balance</mat-icon>
+        <span class="title-text">{{ 'APP.TITLE' | translate }}</span>
+      </div>
+      
+      <span class="flex-spacer"></span>
+
+      <!-- Desktop navigation -->
+      <div class="desktop-nav" *ngIf="!isMobile">
+        <button mat-button 
+                routerLink="/dashboard" 
+                routerLinkActive="active"
+                class="nav-button">
+          <mat-icon>dashboard</mat-icon>
+          {{ 'MENU.DASHBOARD' | translate }}
+        </button>
+        <button mat-button 
+                routerLink="/simulation" 
+                routerLinkActive="active"
+                class="nav-button">
+          <mat-icon>compare_arrows</mat-icon>
+          {{ 'MENU.SIMULATION' | translate }}
+        </button>
+        <button mat-button 
+                routerLink="/history" 
+                routerLinkActive="active"
+                class="nav-button">
+          <mat-icon>history</mat-icon>
+          {{ 'MENU.HISTORY' | translate }}
+        </button>
+      </div>
+
+      <span class="flex-spacer" *ngIf="!isMobile"></span>
+
+      <!-- Desktop settings -->
+      <div class="desktop-settings" *ngIf="!isMobile">
+        <!-- Language switcher -->
+        <button mat-button 
+                (click)="switchLanguage('es')" 
+                [class.active]="currentLang === 'es'"
+                class="language-button">
+          ES
+        </button>
+        <button mat-button 
+                (click)="switchLanguage('en')" 
+                [class.active]="currentLang === 'en'"
+                class="language-button">
+          EN
+        </button>
+        
+        <!-- Dark mode toggle -->
+        <mat-slide-toggle 
+          [checked]="isDarkMode" 
+          (change)="toggleDarkMode()"
+          class="dark-mode-toggle">
+          <mat-icon>{{isDarkMode ? 'brightness_3' : 'wb_sunny'}}</mat-icon>
+        </mat-slide-toggle>
+
+        <!-- Refresh accounts -->
+        <app-refresh-accounts></app-refresh-accounts>
+      </div>
+
+      <!-- Mobile settings -->
+      <div class="mobile-settings" *ngIf="isMobile">
+        <app-refresh-accounts></app-refresh-accounts>
+      </div>
+    </mat-toolbar>
+
+    <!-- Main content area -->
+    <main class="main-content">
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+
+    <!-- Crypto market component -->
+    <app-crypto-market></app-crypto-market>
+  </mat-sidenav-content>
+</mat-sidenav-container>

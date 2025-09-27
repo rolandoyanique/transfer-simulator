@@ -55,7 +55,10 @@
   },
   "ACCOUNT": {
     "BALANCE": "Balance",
-    "CURRENCY": "Currency"
+    "CURRENCY": "Currency",
+    "REFRESH": "Refresh accounts",
+    "REFRESH_SUCCESS": "Accounts updated successfully",
+    "REFRESH_ERROR": "Error updating accounts"
   },
   "CRYPTO": {
     "TITLE": "Crypto Market",
