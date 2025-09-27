@@ -153,3 +153,145 @@
     </div>
   </div>
 </div>
+<!-- Sección de controles dinámicos -->
+<div class="dynamic-controls">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>auto_awesome</mat-icon>
+        Controles de Reportes Dinámicos
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="controls-row">
+        <button mat-raised-button 
+                [color]="realTimeUpdates ? 'accent' : 'primary'"
+                (click)="toggleRealTimeUpdates()">
+          <mat-icon>{{ realTimeUpdates ? 'pause' : 'play_arrow' }}</mat-icon>
+          {{ realTimeUpdates ? 'Pausar Actualizaciones' : 'Activar Tiempo Real' }}
+        </button>
+
+        <button mat-button (click)="refreshManually()" [disabled]="isLoading">
+          <mat-icon>refresh</mat-icon>
+          Actualizar Ahora
+        </button>
+
+        <span class="last-update">
+          <mat-icon>schedule</mat-icon>
+          Última actualización: {{ lastUpdate | date:'medium' }}
+        </span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- Filtros dinámicos -->
+<app-dynamic-filters></app-dynamic-filters>
+
+<!-- Nuevas secciones de reportes dinámicos -->
+<div class="dynamic-reports">
+  <!-- Resumen semanal -->
+  <div class="report-row">
+    <div class="report-container">
+      <mat-card class="weekly-summary">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>date_range</mat-icon>
+            Resumen Semanal (Semana {{ stats.weeklySummary.weekNumber }})
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="weekly-stats">
+            <div class="stat-item">
+              <span class="stat-label">Transacciones</span>
+              <span class="stat-value">{{ stats.weeklySummary.totalTransactions }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Monto Total</span>
+              <span class="stat-value">{{ stats.weeklySummary.totalAmount | currency:'USD':'symbol':'1.2-2' }}</span>
+            </div>
+            <div class="stat-item comparison" [class]="getWeeklyComparisonClass()">
+              <mat-icon>{{ getWeeklyComparisonIcon() }}</mat-icon>
+              <span>{{ formatComparison(stats.weeklySummary.comparisonWithPreviousWeek) }}</span>
+              <span>vs semana anterior</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Métricas de performance -->
+    <div class="report-container">
+      <mat-card class="performance-metrics">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>speed</mat-icon>
+            Métricas de Rendimiento
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="metrics-grid">
+            <div class="metric-item">
+              <mat-icon>flash_on</mat-icon>
+              <div class="metric-info">
+                <span class="metric-label">Velocidad de Transacciones</span>
+                <span class="metric-value">{{ stats.performanceMetrics.transactionVelocity | number:'1.1-1' }}/hora</span>
+              </div>
+            </div>
+            <div class="metric-item">
+              <mat-icon>attach_money</mat-icon>
+              <div class="metric-info">
+                <span class="metric-label">Tamaño Promedio</span>
+                <span class="metric-value">{{ stats.performanceMetrics.averageTransferSize | currency:'USD':'symbol':'1.2-2' }}</span>
+              </div>
+            </div>
+            <div class="metric-item">
+              <mat-icon>schedule</mat-icon>
+              <div class="metric-info">
+                <span class="metric-label">Horas Pico</span>
+                <span class="metric-value">{{ stats.performanceMetrics.peakActivityHours.join(', ') }}</span>
+              </div>
+            </div>
+            <div class="metric-item">
+              <mat-icon>check_circle</mat-icon>
+              <div class="metric-info">
+                <span class="metric-label">Tasa de Éxito</span>
+                <span class="metric-value">{{ stats.performanceMetrics.successRate }}%</span>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+ <!-- Gráfica de tendencia en tiempo real -->
+<div class="report-row">
+  <div class="report-container full-width">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>show_chart</mat-icon>
+          Tendencia en Tiempo Real (Últimas 24 horas)
+          <span *ngIf="realTimeUpdates" class="real-time-indicator">
+            <mat-icon>circle</mat-icon>
+            EN VIVO
+          </span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas baseChart
+                  [data]="hourlyChartData"
+                  [options]="realTimeChartOptions"
+                  [type]="'line'"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"
+                  class="real-time-chart">
+          </canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+</div>

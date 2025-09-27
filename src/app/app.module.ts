@@ -36,6 +36,8 @@ import { TransferSimulationComponent } from './components/transfer-simulation/tr
 import { TransferHistoryComponent } from './components/transfer-history/transfer-history.component';
 import { CryptoMarketComponent } from './components/crypto-market/crypto-market.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core'; 
 // Services
 import { TransferService } from './services/transfer.service';
 import { AccountService } from './services/account.service';
@@ -44,6 +46,7 @@ import { NotificationService } from './services/notification.service';
 
 import { NgChartsModule } from 'ng2-charts';
 import { RefreshAccountsComponent } from './components/refresh-accounts/refresh-accounts.component';
+import { DynamicFiltersComponent } from './components/dynamic-filters/dynamic-filters.component';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -56,7 +59,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TransferSimulationComponent,
     TransferHistoryComponent,
     CryptoMarketComponent,
-    RefreshAccountsComponent
+    RefreshAccountsComponent,
+    DynamicFiltersComponent
   ],
   imports: [
     BrowserModule,
@@ -87,6 +91,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSlideToggleModule,
     MatChipsModule,
     NgChartsModule, 
+    MatDatepickerModule,
+    MatNativeDateModule,
     // Translation
     TranslateModule.forRoot({
       loader: {

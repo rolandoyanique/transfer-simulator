@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit,OnDestroy, ViewChild } from '@angular/core';
 import { TransferService } from '../../services/transfer.service';
-import { DashboardStats, ChartData } from '../../models/account.model';
+import { DashboardStats, ChartData,Transfer } from '../../models/account.model';
 import { TranslateService } from '@ngx-translate/core';
 import { AccountService } from '../../services/account.service';
 import { Account } from '../../models/account.model';
 import { ChartConfiguration, ChartType, ChartData as ChartJsData, ChartEvent } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   stats: DashboardStats = {
@@ -24,12 +24,28 @@ export class DashboardComponent implements OnInit {
     transactionsByHour: [],
     transactionsByAccount: [],
     amountByAccount: [],
-    dailyTrend: []
+    dailyTrend: [],
+    weeklySummary: {
+      weekNumber: 0,
+      totalTransactions: 0,
+      totalAmount: 0,
+      comparisonWithPreviousWeek: 0,
+      topPerformingAccount: 'N/A'
+    },
+    performanceMetrics: {
+      transactionVelocity: 0,
+      averageTransferSize: 0,
+      peakActivityHours: [],
+      successRate: 0
+    }
   };
   
   accounts: Account[] = [];
   isLoading = true;
-
+  lastUpdate = new Date();
+  realTimeUpdates = false;
+  private statsSubscription: Subscription | undefined;
+  private realTimeSubscription: Subscription | undefined;
   // Configuración de gráficas
   public hourlyChartData: ChartJsData<'bar'> = {
     labels: [],
@@ -163,8 +179,59 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loadDashboardData();
     this.loadAccounts();
+    this.startRealTimeUpdates();
+  }
+ngOnDestroy(): void {
+    if (this.statsSubscription) {
+      this.statsSubscription.unsubscribe();
+    }
+    if (this.realTimeSubscription) {
+      this.realTimeSubscription.unsubscribe();
+    }
+  }
+  private loadDynamicStats(): void {
+    this.statsSubscription = this.transferService.getDynamicDashboardStats().subscribe({
+      next: (stats) => {
+        this.stats = stats;
+        this.isLoading = false;
+        this.lastUpdate = new Date();
+        this.updateCharts();
+      },
+      error: (error) => {
+        console.error('Error loading dynamic stats:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+  private startRealTimeUpdates(): void {
+    this.realTimeSubscription = this.transferService.getRealTimeUpdates().subscribe({
+      next: (transfer) => {
+        if (this.realTimeUpdates) {
+          // Forzar actualización de estadísticas cuando llega una nueva transferencia
+          this.loadDynamicStats();
+        }
+      }
+    });
+  }
+  toggleRealTimeUpdates(): void {
+    this.realTimeUpdates = !this.realTimeUpdates;
+  }
+  getWeeklyComparisonClass(): string {
+    return this.stats.weeklySummary.comparisonWithPreviousWeek >= 0 ? 'positive' : 'negative';
   }
 
+  getWeeklyComparisonIcon(): string {
+    return this.stats.weeklySummary.comparisonWithPreviousWeek >= 0 ? 'trending_up' : 'trending_down';
+  }
+
+  formatComparison(value: number): string {
+    return `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;
+  }
+
+  refreshManually(): void {
+    this.isLoading = true;
+    this.loadDynamicStats();
+  }
   private loadDashboardData(): void {
     this.transferService.getDashboardStats().subscribe(stats => {
       this.stats = stats;
@@ -303,4 +370,86 @@ export class DashboardComponent implements OnInit {
   chartHovered({ event, active }: { event?: ChartEvent, active?: any[] }): void {
     console.log('Chart hovered:', event, active);
   }
+  public realTimeChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Tendencia de Transacciones - Últimas 24 Horas',
+        font: {
+          size: 16
+        }
+      },
+      tooltip: {
+        mode: 'index',
+        intersect: false,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        titleFont: {
+          size: 14
+        },
+        bodyFont: {
+          size: 12
+        }
+      }
+    },
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Hora del Día',
+          font: {
+            size: 12,
+            weight: 'bold'
+          }
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.1)'
+        }
+      },
+      y: {
+        display: true,
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Número de Transacciones',
+          font: {
+            size: 12,
+            weight: 'bold'
+          }
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.1)'
+        },
+        ticks: {
+          stepSize: 1
+        }
+      }
+    },
+    elements: {
+      line: {
+        tension: 0.4, // Suaviza la línea
+        borderWidth: 3
+      },
+      point: {
+        radius: 5,
+        hoverRadius: 8,
+        backgroundColor: '#3f51b5'
+      }
+    },
+    interaction: {
+      mode: 'nearest',
+      axis: 'x',
+      intersect: false
+    },
+    animation: {
+      duration: 1000,
+      easing: 'easeInOutQuart'
+    }
+  };
 }

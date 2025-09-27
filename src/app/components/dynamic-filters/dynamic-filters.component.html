@@ -1,0 +1,85 @@
+<mat-card class="filters-card">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon>filter_alt</mat-icon>
+      Filtros Dinámicos
+    </mat-card-title>
+    <button mat-icon-button (click)="clearFilters()" matTooltip="Limpiar filtros">
+      <mat-icon>clear_all</mat-icon>
+    </button>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="filterForm" class="filters-form">
+      <div class="filter-row">
+        <!-- Rango de fechas -->
+        <mat-form-field appearance="outline">
+          <mat-label>Rango de Fechas</mat-label>
+          <mat-select formControlName="dateRange">
+            <mat-option *ngFor="let range of dateRanges" [value]="range.value">
+              {{ range.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Fechas personalizadas -->
+        <div *ngIf="showCustomDateRange" class="custom-date-range">
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha inicial</mat-label>
+            <input matInput [matDatepicker]="startPicker" formControlName="customStartDate">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha final</mat-label>
+            <input matInput [matDatepicker]="endPicker" formControlName="customEndDate">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <!-- Cuentas -->
+        <mat-form-field appearance="outline">
+          <mat-label>Filtrar por Cuentas</mat-label>
+          <mat-select formControlName="accounts" multiple>
+            <mat-option *ngFor="let account of accounts" [value]="account.id">
+              {{ account.name }} ({{ account.accountNumber }})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="filter-row">
+        <!-- Monto mínimo/máximo -->
+        <mat-form-field appearance="outline">
+          <mat-label>Monto Mínimo</mat-label>
+          <input matInput type="number" formControlName="minAmount">
+          <span matPrefix>$ &nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Monto Máximo</mat-label>
+          <input matInput type="number" formControlName="maxAmount">
+          <span matPrefix>$ &nbsp;</span>
+        </mat-form-field>
+
+        <!-- Tipo de transacción -->
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo de Transacción</mat-label>
+          <mat-select formControlName="transactionType">
+            <mat-option value="all">Todas</mat-option>
+            <mat-option value="outgoing">Salientes</mat-option>
+            <mat-option value="incoming">Entrantes</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Auto refresh -->
+        <mat-slide-toggle formControlName="autoRefresh" color="primary">
+          <mat-icon>autorenew</mat-icon>
+          Actualización automática
+        </mat-slide-toggle>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -19,7 +19,21 @@
     "MOST_ACTIVE": "Más Activa",
     "PER_TRANSACTION": "Por Transacción",
     "RECENT_ACTIVITY": "Actividad Reciente",
-    "COMING_SOON": "Gráficas y análisis detallados próximamente..."
+    "COMING_SOON": "Gráficas y análisis detallados próximamente...",
+    "REAL_TIME": "Tiempo Real",
+    "DYNAMIC_REPORTS": "Reportes Dinámicos",
+    "WEEKLY_SUMMARY": "Resumen Semanal",
+    "PERFORMANCE_METRICS": "Métricas de Rendimiento",
+    "LIVE_UPDATES": "Actualizaciones en Vivo",
+    "PAUSE_UPDATES": "Pausar Actualizaciones",
+    "LAST_UPDATE": "Última actualización"
+  },
+  "REPORTS": {
+    "TRANSACTION_VELOCITY": "Velocidad de Transacciones",
+    "AVERAGE_SIZE": "Tamaño Promedio",
+    "PEAK_HOURS": "Horas Pico",
+    "SUCCESS_RATE": "Tasa de Éxito",
+    "VS_LAST_WEEK": "vs semana anterior"
   },
   "TRANSFER": {
     "SIMULATION": {
