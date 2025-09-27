@@ -45,6 +45,15 @@
       "SUBMIT": "Simular Transferencia",
       "PROCESSING": "Procesando..."
     },
+    "PRINT": {
+    "CURRENT_FILTER": "Imprimir Filtrado Actual",
+    "ALL_DATA": "Imprimir Todos los Datos",
+    "EXPORT_PDF": "Exportar a PDF",
+    "OF": "de",
+    "RECORDS": "registros",
+    "DASHBOARD_REPORT": "Reporte del Dashboard",
+    "PERFORMANCE_REPORT": "Reporte de Rendimiento"
+    },
     "HISTORY": {
       "TITLE": "Historial de Transferencias",
       "FILTERS": "Filtros",
@@ -57,7 +66,9 @@
       "TO_ACCOUNT": "Cuenta de Destino",
       "AMOUNT": "Monto",
       "STATUS": "Estado",
-      "NO_DATA": "No se encontraron transferencias"
+      "NO_DATA": "No se encontraron transferencias",
+      "ACTIONS": "Acciones",
+      "PRINT_DETAIL": "Imprimir Detalle"
     },
     "SUCCESS": "¡Transferencia completada exitosamente!",
     "ERROR": "Error al procesar la transferencia. Por favor, intente nuevamente.",

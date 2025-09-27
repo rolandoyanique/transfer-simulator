@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TransferService } from '../../services/transfer.service';
 import { AccountService } from '../../services/account.service';
-import { Transfer, Account } from '../../models/account.model';
+import { Transfer, Account, DashboardStats } from '../../models/account.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-
+import { PrintService } from '../../services/print.service';
 @Component({
   selector: 'app-transfer-history',
   templateUrl: './transfer-history.component.html',
@@ -29,7 +29,8 @@ export class TransferHistoryComponent implements OnInit {
     private transferService: TransferService,
     private accountService: AccountService,
     private fb: FormBuilder,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private printService: PrintService
   ) {
     this.filterForm = this.createFilterForm();
   }
@@ -101,4 +102,42 @@ export class TransferHistoryComponent implements OnInit {
   getStatusText(status: string): string {
     return this.translate.instant(`TRANSFER.STATUS.${status.toUpperCase()}`);
   }
+  // printDashboardReport(): void {
+  //   this.printService.printDashboardReport(this.stats, 'Reporte del Dashboard');
+  // }
+
+  // printPerformanceReport(): void {
+  //   const title = `Reporte de Rendimiento - ${new Date().toLocaleDateString('es-ES')}`;
+  //   this.printService.printDashboardReport(this.stats, title);
+  // }
+  printReport(): void {
+    const filteredTransfers = this.dataSource.filteredData;
+    if (filteredTransfers.length === 0) {
+      alert('No hay datos para imprimir');
+      return;
+    }
+
+    const title = `Reporte de Transferencias - ${new Date().toLocaleDateString('es-ES')}`;
+    this.printService.printTransferReport(filteredTransfers, title);
+  }
+  printAllReport(): void {
+    if (this.transfers.length === 0) {
+      alert('No hay datos para imprimir');
+      return;
+    }
+
+    const title = `Reporte Completo de Transferencias - ${new Date().toLocaleDateString('es-ES')}`;
+    this.printService.printTransferReport(this.transfers, title);
+  }
+
+  exportToPDF(): void {
+    // Esta función podría integrarse con una librería como jsPDF en el futuro
+    alert('Exportación a PDF estará disponible próximamente');
+  }
+  printTransferDetail(transfer: Transfer): void {
+  const printService = this.printService as any;
+  if (printService.printTransferReport) {
+    printService.printTransferReport([transfer], `Detalle de Transferencia - ${transfer.id}`);
+  }
+}
 }

@@ -176,6 +176,16 @@
           Actualizar Ahora
         </button>
 
+        <button mat-raised-button color="primary" (click)="printDashboardReport()" [disabled]="isLoading">
+          <mat-icon>dashboard</mat-icon>
+          Imprimir Dashboard
+        </button>
+
+        <button mat-raised-button color="accent" (click)="printPerformanceReport()" [disabled]="isLoading">
+          <mat-icon>analytics</mat-icon>
+          Reporte de Rendimiento
+        </button>
+
         <span class="last-update">
           <mat-icon>schedule</mat-icon>
           Última actualización: {{ lastUpdate | date:'medium' }}

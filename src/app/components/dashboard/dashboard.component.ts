@@ -7,6 +7,7 @@ import { Account } from '../../models/account.model';
 import { ChartConfiguration, ChartType, ChartData as ChartJsData, ChartEvent } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Subscription } from 'rxjs';
+import { PrintService } from '../../services/print.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -173,7 +174,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private transferService: TransferService,
     private accountService: AccountService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private printService: PrintService
   ) { }
 
   ngOnInit(): void {
@@ -452,4 +454,12 @@ ngOnDestroy(): void {
       easing: 'easeInOutQuart'
     }
   };
+  printDashboardReport(): void {
+    this.printService.printDashboardReport(this.stats, 'Reporte del Dashboard');
+  }
+
+  printPerformanceReport(): void {
+    const title = `Reporte de Rendimiento - ${new Date().toLocaleDateString('es-ES')}`;
+    this.printService.printDashboardReport(this.stats, title);
+  }
 }

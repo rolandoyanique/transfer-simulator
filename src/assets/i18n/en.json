@@ -43,8 +43,19 @@
       "TO_ACCOUNT": "To Account",
       "AMOUNT": "Amount",
       "STATUS": "Status",
-      "NO_DATA": "No transfers found"
+      "NO_DATA": "No transfers found",
+      "ACTIONS": "Actions",
+      "PRINT_DETAIL": "Print Detail"
     },
+    "PRINT": {
+    "CURRENT_FILTER": "Print Current Filter",
+    "ALL_DATA": "Print All Data",
+    "EXPORT_PDF": "Export to PDF",
+    "OF": "of",
+    "RECORDS": "records",
+    "DASHBOARD_REPORT": "Dashboard Report",
+    "PERFORMANCE_REPORT": "Performance Report"
+  },
     "SUCCESS": "Transfer completed successfully!",
     "ERROR": "Error processing transfer. Please try again.",
     "STATUS": {
